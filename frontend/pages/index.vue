@@ -431,6 +431,12 @@ export default {
     toggleNav() {
       this.nav = !this.nav;
     }
+  },
+  created() {
+    // let's pretend that here we made a request to backend to authorize this client and get the api token
+    const apiToken =
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIiLCJpYXQiOjE1Njk4MDIwMjMsImV4cCI6MTYwMTMzODAyOCwiYXVkIjoiIiwic3ViIjoiMSJ9.1lE4SInp_UosTsr1MASHudiNzzkWIq81Dd5rOY5zt2s";
+    window.localStorage.setItem("api_token", apiToken);
   }
 };
 </script>
