@@ -11,7 +11,11 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "nuxt": "^2.0.0"
+    "@cubejs-client/core": "^0.10.16",
+    "@cubejs-client/vue": "^0.10.43",
+    "chart.js": "^2.8.0",
+    "nuxt": "^2.0.0",
+    "vue-chartkick": "^0.5.2"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^1.0.0"

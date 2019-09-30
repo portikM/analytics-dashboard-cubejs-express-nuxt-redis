@@ -308,7 +308,11 @@
                 <h5 class="font-bold uppercase text-gray-600">Graph</h5>
               </div>
               <div class="p-5">
-                <!-- Graph goes here. -->
+                <query-renderer :cubejs-api="cubejsApi" :query="query">
+                  <template v-slot="{ loading, resultSet }">
+                    <area-chart v-if="resultSet" :result-set="resultSet" />
+                  </template>
+                </query-renderer>
               </div>
             </div>
             <!--/Graph Card-->
@@ -417,12 +421,40 @@
 </template>
 
 <script>
+import cubejs from "@cubejs-client/core";
+import { QueryRenderer } from "@cubejs-client/vue";
+import AreaChart from "@/components/AreaChart.vue";
+
+const cubejsApi = cubejs(window.localStorage.getItem("api_token"), {
+  apiUrl: "http://localhost:3000/cubejs-api/v1"
+});
+
 export default {
+  components: {
+    QueryRenderer,
+    AreaChart
+  },
   data() {
     return {
       userMenu: false,
       nav: false
     };
+  },
+  computed: {
+    cubejsApi() {
+      return cubejs(window.localStorage.getItem("api_token"), {
+        apiUrl: "http://localhost:3000/cubejs-api/v1"
+      });
+    },
+    query() {
+      return {
+        measures: ["User.newUsers"],
+        timeDimensions: [
+          { dimension: "User.dateRegistered", granularity: "day" }
+        ],
+        dimensions: []
+      };
+    }
   },
   methods: {
     toggleUserMenu() {
