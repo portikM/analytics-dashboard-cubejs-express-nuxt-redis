@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: "AreaChart",
+  name: "AreaChartBuilder",
   props: {
     resultSet: {
       type: Object,
@@ -19,6 +19,7 @@ export default {
   },
   computed: {
     series() {
+      console.log(this.resultSet);
       const seriesNames = this.resultSet.seriesNames();
       const pivot = this.resultSet.chartPivot();
       const series = [];

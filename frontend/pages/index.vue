@@ -305,12 +305,13 @@
             <!--Graph Card-->
             <div class="bg-white border rounded shadow">
               <div class="border-b p-3">
-                <h5 class="font-bold uppercase text-gray-600">Graph</h5>
+                <h5 class="font-bold uppercase text-gray-600">New Users</h5>
+                <span class="font-bold text-xs uppercase text-gray-500">Over Last 30 Days</span>
               </div>
               <div class="p-5">
-                <query-renderer :cubejs-api="cubejsApi" :query="query">
+                <query-renderer :cubejs-api="cubejsApi" :query="newUsersQuery">
                   <template v-slot="{ loading, resultSet }">
-                    <area-chart v-if="resultSet" :result-set="resultSet" />
+                    <area-chart-builder v-if="resultSet" :result-set="resultSet" />
                   </template>
                 </query-renderer>
               </div>
@@ -423,7 +424,7 @@
 <script>
 import cubejs from "@cubejs-client/core";
 import { QueryRenderer } from "@cubejs-client/vue";
-import AreaChart from "@/components/AreaChart.vue";
+import AreaChartBuilder from "@/components/AreaChartBuilder.vue";
 
 const cubejsApi = cubejs(window.localStorage.getItem("api_token"), {
   apiUrl: "http://localhost:3000/cubejs-api/v1"
@@ -432,7 +433,7 @@ const cubejsApi = cubejs(window.localStorage.getItem("api_token"), {
 export default {
   components: {
     QueryRenderer,
-    AreaChart
+    AreaChartBuilder
   },
   data() {
     return {
@@ -446,13 +447,16 @@ export default {
         apiUrl: "http://localhost:3000/cubejs-api/v1"
       });
     },
-    query() {
+    newUsersQuery() {
       return {
         measures: ["User.newUsers"],
         timeDimensions: [
-          { dimension: "User.dateRegistered", granularity: "day" }
-        ],
-        dimensions: []
+          {
+            dimension: "User.dateRegistered",
+            granularity: "day",
+            dateRange: "Last 30 days"
+          }
+        ]
       };
     }
   },
