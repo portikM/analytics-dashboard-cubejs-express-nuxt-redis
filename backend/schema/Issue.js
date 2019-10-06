@@ -1,10 +1,14 @@
 cube(`Issue`, {
-  sql: `SELECT * FROM porti129_cubox.issue`,
+  sql: `SELECT * FROM cubox.issue`,
 
   joins: {
   },
 
   measures: {
+    priorityIssues: {
+      sql: `id`,
+      type: `count`
+    }
   },
 
   dimensions: {

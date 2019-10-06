@@ -1,5 +1,5 @@
 cube(`Task`, {
-  sql: `SELECT * FROM porti129_cubox.task`,
+  sql: `SELECT * FROM cubox.task`,
 
   joins: {
   },

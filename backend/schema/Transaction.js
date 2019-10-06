@@ -1,11 +1,14 @@
 cube(`Transaction`, {
-  sql: `SELECT * FROM porti129_cubox.transaction`,
+  sql: `SELECT * FROM cubox.transaction`,
 
   joins: {
-
   },
 
   measures: {
+    revenue: {
+      sql: `amount`,
+      type: `sum`
+    }
   },
 
   dimensions: {

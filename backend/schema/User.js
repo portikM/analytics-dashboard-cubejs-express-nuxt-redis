@@ -1,5 +1,5 @@
 cube(`User`, {
-  sql: `SELECT * FROM porti129_cubox.user`,
+  sql: `SELECT * FROM cubox.user`,
 
   joins: {
   },
