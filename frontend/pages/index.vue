@@ -323,55 +323,38 @@
             <!--Graph Card-->
             <div class="bg-white border rounded shadow">
               <div class="border-b p-3">
-                <h5 class="font-bold uppercase text-gray-600">Graph</h5>
+                <h5 class="font-bold uppercase text-gray-600">Revenue</h5>
+                <span class="font-bold text-xs uppercase text-gray-500">Over Last 30 Days</span>
               </div>
               <div class="p-5">
-                <!-- Graph goes here. -->
+                <query-renderer :cubejs-api="cubejsApi" :query="revenueQuery">
+                  <template v-slot="{ loading, resultSet }">
+                    <area-chart-builder v-if="resultSet" :result-set="resultSet" />
+                  </template>
+                </query-renderer>
               </div>
             </div>
             <!--/Graph Card-->
           </div>
 
-          <div class="w-full md:w-1/2 xl:w-1/3 p-3">
+          <div class="w-full md:w-full p-3">
             <!--Graph Card-->
             <div class="bg-white border rounded shadow">
               <div class="border-b p-3">
-                <h5 class="font-bold uppercase text-gray-600">Graph</h5>
+                <h5 class="font-bold uppercase text-gray-600">Priority Issues</h5>
+                <span class="font-bold text-xs uppercase text-gray-500">Over Last 7 Days</span>
               </div>
               <div class="p-5">
-                <!-- Graph goes here. -->
-              </div>
-            </div>
-            <!--/Graph Card-->
-          </div>
-
-          <div class="w-full md:w-1/2 xl:w-1/3 p-3">
-            <!--Graph Card-->
-            <div class="bg-white border rounded shadow">
-              <div class="border-b p-3">
-                <h5 class="font-bold uppercase text-gray-600">Graph</h5>
-              </div>
-              <div class="p-5">
-                <!-- Graph goes here. -->
-              </div>
-            </div>
-            <!--/Graph Card-->
-          </div>
-
-          <div class="w-full md:w-1/2 xl:w-1/3 p-3">
-            <!--Graph Card-->
-            <div class="bg-white border rounded shadow">
-              <div class="border-b p-3">
-                <h5 class="font-bold uppercase text-gray-600">Graph</h5>
-              </div>
-              <div class="p-5">
-                <!-- Graph goes here. -->
+                <query-renderer :cubejs-api="cubejsApi" :query="priorityIssuesQuery">
+                  <template v-slot="{ loading, resultSet }">
+                    <column-chart-builder v-if="resultSet" :result-set="resultSet" />
+                  </template>
+                </query-renderer>
               </div>
             </div>
             <!--/Graph Card-->
           </div>
         </div>
-
         <!--/ Console Content-->
       </div>
     </div>
@@ -425,6 +408,7 @@
 import cubejs from "@cubejs-client/core";
 import { QueryRenderer } from "@cubejs-client/vue";
 import AreaChartBuilder from "@/components/AreaChartBuilder.vue";
+import ColumnChartBuilder from "@/components/ColumnChartBuilder.vue";
 
 const cubejsApi = cubejs(window.localStorage.getItem("api_token"), {
   apiUrl: "http://localhost:3000/cubejs-api/v1"
@@ -433,7 +417,8 @@ const cubejsApi = cubejs(window.localStorage.getItem("api_token"), {
 export default {
   components: {
     QueryRenderer,
-    AreaChartBuilder
+    AreaChartBuilder,
+    ColumnChartBuilder
   },
   data() {
     return {
@@ -457,6 +442,32 @@ export default {
             dateRange: "Last 30 days"
           }
         ]
+      };
+    },
+    revenueQuery() {
+      return {
+        measures: ["Transaction.revenue"],
+        timeDimensions: [
+          {
+            dimension: "Transaction.date",
+            granularity: "day",
+            dateRange: "Last 30 days"
+          }
+        ],
+        filters: []
+      };
+    },
+    priorityIssuesQuery() {
+      return {
+        measures: ["Issue.priorityIssues", "Issue.priorityIssues"],
+        timeDimensions: [
+          {
+            dimension: "Issue.dueDate",
+            granularity: "day",
+            dateRange: "Last 60 days"
+          }
+        ],
+        dimensions: ["Issue.dueDate", "Issue.title"]
       };
     }
   },

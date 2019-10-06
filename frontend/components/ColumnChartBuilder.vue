@@ -1,16 +1,16 @@
 <template>
   <div class="chart-renderer">
-    <area-chart
+    <column-chart
       :legend="false"
       :messages="{empty: 'Sorry, there is no data available at this time.'}"
       :data="series"
-    ></area-chart>
+    ></column-chart>
   </div>
 </template>
 
 <script>
 export default {
-  name: "AreaChartBuilder",
+  name: "ColumnChartBuilder",
   props: {
     resultSet: {
       type: Object,
